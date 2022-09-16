@@ -4,6 +4,10 @@
 
 PATH=$PATH:/opt/node-v6.4.0-linux-x64/bin
 
+if [ -d "/usr/local/go/bin" ] ; then
+    PATH="/usr/local/go/bin:$PATH"
+fi
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -114,9 +118,25 @@ fi
 
 # Add functions for myself
 
+## cd up n levels, or to a dir name given
+cdup(){
+    case $1 in
+        *[!0-9]*)
+            cd $( pwd | sed -r "s|(.*$1[^/]*/).*|\1|" )
+            ;;
+        *)
+            cd $(printf "%0.0s../" $(seq 1 $1));
+            ;;
+    esac
+}
+
 ## cd to another branch, into the same directory
 ## eg. /xxx/Firmware_001/yyy/zzz -> cdbr 002 -> /xxx/Firmware_002/yyy/zzz
 cdbr(){
     cd `echo $PWD | sed 's/[0-9]\+/'$1'/'`;
 }
 
+# ibus export
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
