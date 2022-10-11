@@ -1,3 +1,4 @@
+#!/bin/bash
 EXEC_USER=$USER
 [[ -d /home/$EXEC_USER/Desktop/BuildServer ]] || mkdir /home/$EXEC_USER/Desktop/BuildServer
 [[ -d /home/$EXEC_USER/Desktop/BuildServer/Automation ]] || mkdir /home/$EXEC_USER/Desktop/BuildServer/Automation
