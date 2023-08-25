@@ -118,6 +118,17 @@ function! SetListchar()
     return ":set listchars=tab:→\\ ,trail:`,nbsp:·\<CR>"
 endfunction
 
+" switch between tabstop 4/8
+let g:tabstops = 1
+function! SetTabstop()
+    if g:tabstops == 1
+        let g:tabstops = 0
+        return ":set tabstop=8\<CR>"
+    endif
+    let g:tabstops = 1
+    return ":set tabstop=4\<CR>"
+endfunction
+
 " Add tab index for tab line
 " Modify from https://superuser.com/a/614424
 function MyTabLine()
@@ -214,6 +225,7 @@ nnoremap <silent> <expr> <CR> Highlighting()
 nnoremap <S-Tab> :set expandtab!<CR>
 """ <C-/> will input <C-_> in this terminal
 nnoremap <expr> <C-_> SetListchar()
+nnoremap <expr> <Leader><Tab> SetTabstop()
 " screen scrolling and cursor movement
 nnoremap <C-H> <Pagedown>
 nnoremap <C-J> <C-E>
