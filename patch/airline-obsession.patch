@@ -1,0 +1,45 @@
+diff --git a/autoload/airline/extensions/obsession.vim b/autoload/airline/extensions/obsession.vim
+index 9b22952..324ed2c 100644
+--- a/autoload/airline/extensions/obsession.vim
++++ b/autoload/airline/extensions/obsession.vim
+@@ -19,5 +19,14 @@ function! airline#extensions#obsession#init(ext)
+ endfunction
+ 
+ function! airline#extensions#obsession#get_status()
+-  return ObsessionStatus((g:airline#extensions#obsession#indicator_text . s:spc), '')
++  let s = ''
++  if exists('v:this_session') && v:this_session != ''
++    let s:sess_string = v:this_session
++    let s:sess_parts = split(s:sess_string, '/')
++    let s:sess_filename = s:sess_parts[-1]
++    let s:sess_name_parts = split(s:sess_filename, '\.')
++    let s:sess_name = s:sess_name_parts[0]
++    let s = s:sess_name . ' '
++  endif
++  return ObsessionStatus() . s
+ endfunction
+diff --git a/autoload/airline/init.vim b/autoload/airline/init.vim
+index 20878d8..0e66138 100644
+--- a/autoload/airline/init.vim
++++ b/autoload/airline/init.vim
+@@ -257,9 +257,9 @@ function! airline#init#sections()
+   endif
+   if !exists('g:airline_section_c')
+     if exists("+autochdir") && &autochdir == 1
+-      let g:airline_section_c = airline#section#create(['%<', 'path', spc, 'readonly', 'coc_status', 'lsp_progress'])
++      let g:airline_section_c = airline#section#create(['%<', 'path', spc, 'readonly', 'obsession', 'coc_status', 'lsp_progress'])
+     else
+-      let g:airline_section_c = airline#section#create(['%<', 'file', spc, 'readonly', 'coc_status', 'lsp_progress'])
++      let g:airline_section_c = airline#section#create(['%<', 'file', spc, 'readonly', 'obsession', 'coc_status', 'lsp_progress'])
+     endif
+   endif
+   if !exists('g:airline_section_gutter')
+@@ -273,7 +273,7 @@ function! airline#init#sections()
+   endif
+   if !exists('g:airline_section_z')
+     if airline#util#winwidth() > 79
+-      let g:airline_section_z = airline#section#create(['windowswap', 'obsession', '%p%%', 'linenr', 'maxlinenr', 'colnr'])
++      let g:airline_section_z = airline#section#create(['windowswap', '%p%%', 'linenr', 'maxlinenr', 'colnr'])
+     else
+       let g:airline_section_z = airline#section#create(['%p%%', 'linenr', 'colnr'])
+     endif
