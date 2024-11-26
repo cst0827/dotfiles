@@ -69,8 +69,8 @@ set listchars=tab:→\ ,trail:˙,nbsp:·
 set title
 set titlestring=%t%(\ %m%)%(\ (%{expand(\"%:p:~:h:h:t\")}/%{expand(\"%:p:~:h:t\")})%)\ %<%=%l/%L-%P%Y
 
-""" make background after 120 chars gray
-let &colorcolumn=join(range(121,999),",")
+""" make background at 81, and after 120 chars gray
+let &colorcolumn="81,".join(range(121,999),",")
 
 """ abbreviates
 iab phpdoc <Esc>:read $HOME/.vim/phpdoc.abbr<CR>kdd6==jA
