@@ -304,3 +304,9 @@ endif
 highlight TabNum ctermbg=240 ctermfg=220
 " Use MyTabLine as tab line style
 set tabline=%!MyTabLine()
+" better ifdef
+if filereadable($HOME."/.vim/after/syntax/ifdef.vim")
+    source $HOME/.vim/after/syntax/ifdef.vim
+    nnoremap <Leader>d :call Define(expand('<cword>'))<CR>
+    nnoremap <Leader>ud :call Undefine(expand('<cword>'))<CR>
+endif
