@@ -15,12 +15,12 @@ if [ "x${PASS}" = "x" ]; then
     PASS="1234"
 fi
 
-sshpass -p $PASS ssh root@${IP1} "mount /dev/boot1 /mnt"
-sshpass -p $PASS scp initrd.gz initrd_nv.tgz kernel root@${IP1}:/mnt/boot/
-sshpass -p $PASS ssh root@${IP1} "umount /mnt"
+sshpass -p $PASS ssh -q -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no root@${IP1} "mount /dev/boot1 /mnt"
+sshpass -p $PASS scp -q -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no initrd.gz initrd_nv.tgz kernel root@${IP1}:/mnt/boot/
+sshpass -p $PASS ssh -q -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no root@${IP1} "umount /mnt"
 
 if [ "x${IP2}" != "x" ]; then
-    sshpass -p $PASS ssh root@${IP2} "mount /dev/boot1 /mnt"
-    sshpass -p $PASS scp initrd.gz initrd_nv.tgz kernel root@${IP2}:/mnt/boot/
-    sshpass -p $PASS ssh root@${IP2} "umount /mnt"
+    sshpass -p $PASS ssh -q -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no root@${IP2} "mount /dev/boot1 /mnt"
+    sshpass -p $PASS scp -q -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no initrd.gz initrd_nv.tgz kernel root@${IP2}:/mnt/boot/
+    sshpass -p $PASS ssh -q -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no root@${IP2} "umount /mnt"
 fi
