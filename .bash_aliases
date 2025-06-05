@@ -1,3 +1,6 @@
+# enable alias for non-interactive shell (used for vim)
+shopt -s expand_aliases
+
 # general
 alias ll='ls -l'
 alias la='ls -al'
@@ -15,6 +18,7 @@ alias viewdiff="svn diff | vim -"
 alias svnstpall='svnstp; for d in ./*/ ; do (cd "$d" && echo -e "\033[1;34m$d\033[0m"&& svnstp); done'
 alias genctags='ctags -R --languages=c --langmap=c:+.h -h +.h ./'
 alias genphptags='ctags -R --languages=php ./'
+alias genpytags='ctags -R --languages=python ./'
 alias ..='cdup'
 alias ..2='cdup 2'
 alias ..3='cdup 3'
