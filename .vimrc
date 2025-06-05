@@ -36,7 +36,11 @@ if isdirectory($HOME."/.vim/pack/default/start/gruvbox")
 endif
 " taglist
 if isdirectory($HOME."/.vim/pack/default/start/taglist")
+    let g:Tlist_Auto_Highlight_Tag = 0
     let g:Tlist_GainFocus_On_ToggleOpen = 1
+    let g:Tlist_Highlight_Tag_On_BufEnter = 0
+    let g:Tlist_Sort_Type = "name"
+    let g:Tlist_WinWidth = 35
     nnoremap <F2> :TlistToggle<CR>
 endif
 " AutoPair
@@ -68,7 +72,9 @@ let &colorcolumn=join(range(121,999),",")
 
 """ abbreviates
 iab phpdoc <Esc>:read $HOME/.vim/phpdoc.abbr<CR>kdd6==jA
-iab iff <Esc>:read $HOME/.vim/phpif.abbr<CR>kdd2==lllli
+" go indent will remove the space before the first character, add them back
+iab godoc <Esc>:read $HOME/.vim/phpdoc.abbr<CR>kdd6==j<C-v>4jI<Space><Esc>A
+iab iff <Esc>:read $HOME/.vim/phpif.abbr<CR>kdd2==4li
 
 """ enable indent based on filetype
 filetype plugin indent on
@@ -78,6 +84,8 @@ let g:PHP_vintage_case_default_indent = 1
 " want *.h to be filetype c, or it will be cpp by default.
 let g:c_syntax_for_h = 1
 au filetype c setlocal tabstop=8 noexpandtab
+" Use tab for Golang indention
+au filetype go setlocal tabstop=4 noexpandtab
 
 """ open help file in vertical split, left side
 au filetype help wincmd L
