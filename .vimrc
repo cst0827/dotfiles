@@ -130,7 +130,7 @@ function MyTabLine()
         let s .= '%#TabNum#'
         let s .= ' '
         " set page number string
-        let s .= t + 1 . ' '
+        let s .= t . ' '
         " set highlight
         if t + 1 == tabpagenr()
             let s .= '%#TabLineSel#'
