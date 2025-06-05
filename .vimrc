@@ -41,6 +41,7 @@ if isdirectory($HOME."/.vim/pack/default/start/taglist")
     let g:Tlist_Highlight_Tag_On_BufEnter = 0
     let g:Tlist_Sort_Type = "name"
     let g:Tlist_WinWidth = 35
+    let g:Tlist_Use_Right_Window = 1
     nnoremap <F2> :TlistToggle<CR>
 endif
 " AutoPair
