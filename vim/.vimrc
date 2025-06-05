@@ -306,7 +306,7 @@ highlight TabNum ctermbg=240 ctermfg=220
 set tabline=%!MyTabLine()
 " better ifdef
 if filereadable($HOME."/.vim/after/syntax/ifdef.vim")
-    source $HOME/.vim/after/syntax/ifdef.vim
+    au filetype c set syntax=c.ifdef
     nnoremap <Leader>d :call Define(expand('<cword>'))<CR>
     nnoremap <Leader>ud :call Undefine(expand('<cword>'))<CR>
 endif
