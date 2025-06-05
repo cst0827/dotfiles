@@ -8,7 +8,6 @@ syn match cJCDecl		"^\s*\(inline\s\+\)\=\(\I\i*[ \t*]\+\)\+\s*\I" contains=cJCTy
 syn match cStatement	"^\s*return\>."me=e-1
 syn match cStatement	"^\s*goto\s\+\I"me=e-1
 syn match cConditional	"^\s*case\>."me=e-1
-syn match cConditional	":\s*$"
 
 hi link cJCTypeInDecl	cType
 
