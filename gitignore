@@ -1,0 +1,34 @@
+#!/bin/bash
+
+default=UserApp/ui/gui/pnpm-lock.yaml
+
+ignore () {
+    if [ -z "$1" ]; then
+        git update-index --assume-unchanged $default
+    else
+        git update-index --assume-unchanged $1
+    fi
+}
+
+unignore () {
+    if [ -z "$1" ]; then
+        git update-index --no-assume-unchanged $default
+        git restore $default
+    else
+        git update-index --no-assume-unchanged $1
+        git restore $1
+    fi
+}
+
+# a simple help
+if [ "$1" == "-h" ]; then
+    echo "Usage: `basename $0` [undo] [<filepath>]"
+    echo "    if not specified, <filepath> will be $default"
+    exit 0
+fi
+
+if [ x$1 = 'xundo' ]; then
+    unignore $2
+else
+    ignore $1
+fi
