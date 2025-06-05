@@ -136,6 +136,7 @@ export QT_IM_MODULE=ibus
 . "$HOME/.cargo/env"
 
 # keep this section in this order and at the end of rc
+export FZF_COMPLETION_TRIGGER='~~'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 eval "$(zoxide init --cmd cd bash)"
 _fzf_setup_completion dir cd
