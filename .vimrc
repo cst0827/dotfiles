@@ -203,11 +203,11 @@ function MyTabLine()
     let s .= '%='
 
     " Show current session name for Obsession
-    if exists('g:this_obsession')
-        " Use the "DiffAdd" color if in a session
-        let s .= '%#diffadd#'
-    endif
-    if exists(':Obsession')
+    if exists(':Obsession') && !isdirectory($HOME."/.vim/pack/default/start/vim-airline")
+        if exists('g:this_obsession')
+            " Use the "DiffAdd" color if in a session
+            let s .= '%#diffadd#'
+        endif
         let s .= "%{ObsessionStatus()}"
         if exists('v:this_session') && v:this_session != ''
             let s:obsession_string = v:this_session
