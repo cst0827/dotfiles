@@ -4,7 +4,7 @@
 set t_Co=256
 set tabstop=4
 set softtabstop=4
-set shiftwidth=4
+set shiftwidth=0
 set smarttab
 set expandtab
 set ai
@@ -18,6 +18,7 @@ set rnu
 set incsearch
 set splitright
 set showcmd
+set foldcolumn=2
 set matchpairs=(:),{:},[:],<:>
 set tags=./tags;
 set completeopt=menuone,preview
