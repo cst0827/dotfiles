@@ -88,6 +88,7 @@ let g:c_syntax_for_h = 1
 au filetype c setlocal tabstop=8 noexpandtab
 " Use tab for Golang indention
 au filetype go setlocal tabstop=4 noexpandtab
+au filetype go setlocal formatoptions+=ro
 
 """ open help file in vertical split, left side
 au filetype help wincmd L
@@ -197,6 +198,28 @@ function MyTabLine()
     endfor
     " after the last tab fill with TabLineFill and reset tab page nr
     let s .= '%#TabLineFill#%T'
+
+    " Right-align
+    let s .= '%='
+
+    " Show current session name for Obsession
+    if exists('g:this_obsession')
+        " Use the "DiffAdd" color if in a session
+        let s .= '%#diffadd#'
+    endif
+    if exists(':Obsession')
+        let s .= "%{ObsessionStatus()}"
+        if exists('v:this_session') && v:this_session != ''
+            let s:obsession_string = v:this_session
+            let s:obsession_parts = split(s:obsession_string, '/')
+            let s:obsession_filename = s:obsession_parts[-1]
+            let s:obsession_sess_parts = split(s:obsession_filename, '\.')
+            let s:obsession_sess_name = s:obsession_sess_parts[0]
+            let s .= ' ' . s:obsession_sess_name . ' '
+            let s .= '%*' " Restore default color
+        endif
+    endif
+
     " right-align the label to close the current tab page
     if tabpagenr('$') > 1
         let s .= '%=%#TabLineFill#%999X'
@@ -258,6 +281,14 @@ if isdirectory($HOME."/.vim/pack/default/start/Cscove")
     nnoremap <Leader>l :call ToggleLocationList()<CR>
     nnoremap <Leader>n :lne<CR>
     nnoremap <Leader>p :lp<CR>
+endif
+" Obsession
+if isdirectory($HOME."/.vim/pack/default/start/obsession")
+    let g:session_dir = '~/vim_session'
+    exec 'nnoremap <Leader>ss :Obsession ' . g:session_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+    exec 'nnoremap <Leader>sr :so ' . g:session_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
+    nnoremap <Leader>sp :Obsession<CR>
+    nnoremap <Leader>sd :Obsession!<CR>
 endif
 call FixMeta()
 set ttimeout ttimeoutlen=50
