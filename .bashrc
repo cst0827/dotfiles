@@ -62,8 +62,12 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+source ~/dotfiles/git-prompt.sh
+
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWDIRTYSTATE=1
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[38;5;40m\][\A] \[\033[38;5;75m\]$PWD\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[38;5;40m\][\A] \[\033[38;5;75m\]$PWD\[\033[00m\] \[\033[38;5;10m\]$(__git_ps1 "(%s)")\[\033[00m\]\n\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -82,18 +86,7 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
 fi
-
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like

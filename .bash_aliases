@@ -25,4 +25,6 @@ alias ..2='cdup 2'
 alias ..3='cdup 3'
 alias ..4='cdup 4'
 alias gitstp="git status -uno"
-alias gitlog="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) %C(bold green)(%cr)%C(reset)%C(auto)%d%C(reset) %C(dim white)- %an %C(dim blue)(%ad)%C(reset)%n''          %C(white)%s%C(reset)'"
+alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) - %C(dim white)%an%C(reset) - %C(white)%s%C(reset)%C(auto)%d%C(reset)'"
+alias gitflog="git log --oneline --decorate --all --graph"
+alias cppwd="pwd | tr -d '\n' | xclip -selection clipboard"
