@@ -8,3 +8,7 @@ git clone https://github.com/brookhong/cscope.vim.git ~/.vim/pack/default/start/
 #git clone https://github.com/jiangmiao/auto-pairs.git ~/.vim/pack/default/start/auto-pairs
 git clone https://github.com/yegappan/taglist.git ~/.vim/pack/default/start/taglist
 git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/default/start/vim-airline
+# this minimap has some issue with tabs
+#if which code-minimap; then
+#    git clone https://github.com/wfxr/minimap.vim.git ~/.vim/pack/default/start/minimap
+#fi
