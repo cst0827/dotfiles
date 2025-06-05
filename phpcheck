@@ -1,0 +1,13 @@
+if [ -z $1 ]
+then
+    PHPBIN=/usr/bin/php
+else
+    PHPBIN=$1
+fi
+
+if [ -z $2 ]
+then
+    find ./ -name "*.php" | xargs -n 1 ${PHPBIN} -l
+else
+    ${PHPBIN} -l $2
+fi
