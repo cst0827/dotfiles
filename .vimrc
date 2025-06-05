@@ -206,6 +206,8 @@ endfunction
 """"""
 " Key mappings
 """"""
+" mapping in Command-;line mode (: pressed)
+nnoremap <silent> <C-T> :vsp<CR><C-W>T
 " functions
 nnoremap <silent> <expr> <CR> Highlighting()
 nnoremap <S-Tab> :set expandtab!<CR>
@@ -236,9 +238,10 @@ nnoremap <SPACE> :exec "normal i".nr2char(getchar())."\e"<CR>
 " emulate copy to system clipboard
 nnoremap <C-C> "*yiw"+yiw
 vnoremap <C-C> "+y
+" Cscove mappings using leader key
 if isdirectory($HOME."/.vim/pack/default/start/Cscove")
-    nnoremap <leader>fc :vsp<CR><C-W><S-T> :call CscopeFind('c', expand('<cword>'))<CR>
-    nnoremap <leader>fs :vsp<CR><C-W><S-T> :call CscopeFind('s', expand('<cword>'))<CR>
+    nnoremap <Leader>fc :vsp<CR><C-W><S-T> :call CscopeFind('c', expand('<cword>'))<CR>
+    nnoremap <Leader>fs :vsp<CR><C-W><S-T> :call CscopeFind('s', expand('<cword>'))<CR>
     nnoremap <Leader>l :call ToggleLocationList()<CR>
     nnoremap <Leader>n :lne<CR>
     nnoremap <Leader>p :lp<CR>
