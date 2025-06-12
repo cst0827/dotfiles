@@ -36,15 +36,13 @@ if isdirectory($HOME."/.vim/pack/default/start/gruvbox")
     colorscheme gruvbox
     set background=dark
 endif
-" taglist
-if isdirectory($HOME."/.vim/pack/default/start/taglist")
-    let g:Tlist_Auto_Highlight_Tag = 0
-    let g:Tlist_GainFocus_On_ToggleOpen = 1
-    let g:Tlist_Highlight_Tag_On_BufEnter = 0
-    let g:Tlist_Sort_Type = "name"
-    let g:Tlist_WinWidth = 35
-    let g:Tlist_Use_Right_Window = 1
-    nnoremap <F2> :TlistToggle<CR>
+" tagbar
+if isdirectory($HOME."/.vim/pack/default/start/tagbar")
+    "let g:tagbar_autoclose = 1
+    let g:tagbar_autofocus = 1
+    let g:tagbar_show_data_type = 1
+    let g:tagbar_width = max([30, winwidth(0) / 4])
+    nnoremap <F2> :TagbarToggle j<CR>
 endif
 " AutoPair
 if isdirectory($HOME."/.vim/pack/default/start/auto-pairs")
@@ -58,6 +56,16 @@ if isdirectory($HOME."/.vim/pack/default/start/Cscove")
     set cscopequickfix =
     let g:cscope_open_location = 0
 endif
+" taglist, deprecated
+"if isdirectory($HOME."/.vim/pack/default/start/taglist")
+"    let g:Tlist_Auto_Highlight_Tag = 0
+"    let g:Tlist_GainFocus_On_ToggleOpen = 1
+"    let g:Tlist_Highlight_Tag_On_BufEnter = 0
+"    let g:Tlist_Sort_Type = "name"
+"    let g:Tlist_WinWidth = 50
+"    let g:Tlist_Use_Right_Window = 1
+"    nnoremap <F2> :TlistToggle<CR>
+"endif
 
 """ always show status bar
 set laststatus=2
@@ -91,8 +99,8 @@ au filetype c setlocal tabstop=8 noexpandtab
 au filetype go setlocal tabstop=4 noexpandtab
 au filetype go setlocal formatoptions+=ro
 
-""" open help file in vertical split, left side
-au filetype help wincmd L
+""" open help file in vertical split, left side, size 80, no foldcolume
+au filetype help setlocal foldcolumn=0 | wincmd L | vertical resize 80
 
 """"""
 " Functions
