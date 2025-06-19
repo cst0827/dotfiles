@@ -24,6 +24,7 @@ set tags=./tags;
 set completeopt=menuone,preview
 let mapleader="`"
 let $BASH_ENV = "$HOME/.bash_aliases"
+set diffopt=internal,filler,closeoff,algorithm:minimal,vertical
 syntax on
 
 """ Plugins
