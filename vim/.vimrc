@@ -130,14 +130,18 @@ function! SetListchar()
 endfunction
 
 " switch between tabstop 4/8
-let g:tabstops = 1
 function! SetTabstop()
-    if g:tabstops == 1
-        let g:tabstops = 0
+    if &tabstop == 4
         return ":set tabstop=8\<CR>"
     endif
-    let g:tabstops = 1
     return ":set tabstop=4\<CR>"
+endfunction
+
+" insert single character
+function! InsertOneChar()
+    echo "Insert character:"
+    let c = nr2char(getchar())
+    execute "normal! i" . c . "\<Esc>"
 endfunction
 
 " Add tab index for tab line
@@ -280,7 +284,7 @@ nnoremap <C-\> :tab tselect <c-r>=expand("<cword>")<cr><CR>
 " so Enter will not insert line
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " press <SPACE> + character to insert a single character in normal mode
-nnoremap <SPACE> :exec "normal i".nr2char(getchar())."\e"<CR>
+nnoremap <silent> <SPACE> :call InsertOneChar()<CR>
 " emulate copy to system clipboard
 nnoremap <C-C> "*yiw"+yiw
 vnoremap <C-C> "+y
