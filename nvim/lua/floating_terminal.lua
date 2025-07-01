@@ -146,6 +146,12 @@ M.List_floating_terminals = function()
 
   -- Update window info
   M._current_floating_term = { buf = M._terminal_list_buf, win = win, title_win = title_win, idx = "list" }
+
+  -- Setup keymap for switching terminal from list
+  vim.api.nvim_buf_set_keymap(M._terminal_list_buf, 'n', '<CR>', [[:lua require('floating_terminal')._switch_from_list()<CR>]], { noremap = true, silent = true })
+  vim.api.nvim_set_option_value('modifiable', false, { buf = M._terminal_list_buf })
+  vim.api.nvim_set_option_value('buftype', 'nofile', { buf = M._terminal_list_buf })
+  vim.api.nvim_set_option_value('filetype', 'floating_terminal_list', { buf = M._terminal_list_buf })
 end
 
 -- Switch to an existing floating terminal by index
@@ -323,6 +329,15 @@ local floating_term_keymaps = {
 
 for _, map in ipairs(floating_term_keymaps) do
   vim.api.nvim_set_keymap(map[1], map[2], map[3], map[4])
+end
+
+-- Helper: Switch terminal from list buffer by cursor line
+function M._switch_from_list()
+  local line = vim.api.nvim_get_current_line()
+  local idx = line:match("^Terminal%s+(%d+):")
+  if idx then
+    M.Switch_floating_terminal(tonumber(idx))
+  end
 end
 
 return M
