@@ -7,7 +7,8 @@ alias la='ls -al'
 
 # custom
 alias :q='exit'
-alias vim='vim -p'
+alias v='vim -p'
+alias nv='nvim -p'
 alias grepp="grep -Irnw --exclude-dir='.svn' --exclude='tags' --exclude='*.cmd'"
 alias grepx="grep -Irn --exclude-dir='.svn' --exclude='tags' --exclude='*.cmd'"
 alias svnstp='svn st | grep "^[^\\?]"'

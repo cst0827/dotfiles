@@ -2,7 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-PATH=$PATH:/opt/node-v6.4.0-linux-x64/bin
+PATH=$PATH:/opt/node-v6.4.0-linux-x64/bin:$HOME/neovim/bin
 
 if [ -d "/usr/local/go/bin" ] ; then
     PATH="/usr/local/go/bin:$PATH"
@@ -140,3 +140,11 @@ export FZF_COMPLETION_TRIGGER='~~'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 eval "$(zoxide init --cmd cd bash)"
 _fzf_setup_completion dir cd
+_fzf_setup_completion path nvim
+_fzf_setup_completion path nv
+
+# these lines are for nvm, enable if nvm is needed
+# for now we just use it to install nodejs 20.x and disable it after that
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
