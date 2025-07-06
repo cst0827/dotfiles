@@ -3,6 +3,7 @@ vim.o.showtabline = 2
 ---- 一般設定 ----
 vim.g.mapleader = "`"
 vim.opt.termguicolors = true
+vim.opt.hidden = true
 vim.opt.mouse = ""
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -75,7 +76,6 @@ vim.api.nvim_create_autocmd({'WinEnter', 'BufWinEnter'}, {
 
 ---- functions ----
 local funcs = require('functions')
-local floating_term = require('floating_terminal')
 _G.Highlighting = funcs.Highlighting
 _G.Toggle_tabstop = funcs.Toggle_tabstop
 _G.Toggle_listchars = funcs.Toggle_listchars
