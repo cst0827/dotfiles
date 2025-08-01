@@ -24,6 +24,7 @@ M.Toggle_tabstop = function()
     else
         vim.opt.tabstop = 4
     end
+    vim.notify("Change tabstop to " .. vim.o.tabstop, vim.log.levels.INFO)
 end
 
 -- Switch between visable tabs and spaces
@@ -33,6 +34,7 @@ M.Toggle_listchars = function()
     else
         vim.opt.listchars = { tab = "→ ", trail = "`", nbsp = "·" }
     end
+    vim.notify("Toggle tab character", vim.log.levels.INFO)
 end
 
 -- Insert one character

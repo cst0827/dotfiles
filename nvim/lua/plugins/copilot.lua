@@ -1,5 +1,6 @@
 return{ -- copilot
   "github/copilot.vim",
+  enabled = false,
   config = function()
     vim.g.copilot_node_command = vim.fn.expand('~/.nvm/versions/node/v20.19.3/bin/node')
     vim.keymap.set('i', '<S-Tab>', 'copilot#Accept("\\<CR>")', { expr = true, replace_keycodes = false })

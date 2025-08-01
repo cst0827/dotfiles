@@ -13,13 +13,16 @@ local terminal_keymap = {
 }
 
 --- Toggle a terminal, put it in terminal mode if terminal is opened
-function M.Toggle(id)
+function M.Toggle(id, direction)
   local Terminal = require("toggleterm.terminal").Terminal
+  if not direction then
+    direction = "float"
+  end
+  local size = (direction == "vertical") and (vim.o.columns * 0.4) or 40
   local term = Terminal:new({
     id = id,
-    direction = "float",
+    direction = direction,
     dir = "git_dir",
-    size = 40,
     name = "Term" .. id,
     display_name = "Term" .. id,
     on_open = function(term)
@@ -29,7 +32,7 @@ function M.Toggle(id)
     end
   })
 
-  term:toggle()
+  term:toggle(size, direction)
   if term:is_open() then
     term:set_mode("i")
   end
@@ -53,11 +56,13 @@ function M.Rename_terminal(id)
   end)()
 
   -- input terminal id if not provided
-  vim.ui.input({ prompt = "Terminal id to rename: "}, function(input)
-    if input and input ~= "" then
-      term_id = tonumber(input)
-    end
-  end)
+  if not term_id then
+    vim.ui.input({ prompt = "Terminal id to rename: "}, function(input)
+      if input and input ~= "" then
+        term_id = tonumber(input)
+      end
+    end)
+  end
   if not term_id then
     vim.notify("Terminal id nil", vim.log.levels.WARN)
     return
@@ -155,26 +160,23 @@ end
 function M.Get_keys()
   local keys = {}
 
-  -- <Leader>1 ~ <Leader>9 to open / switch to Terminal 1 ~ 9
-  for i = 1, 9 do
-    table.insert(keys, {
-      "<M-" .. i .. ">",
-      function()
-        require("myconf.toggleterm").Toggle(i)
-      end,
-      mode = "t",
-      desc = "ToggleTerm " .. i,
-    })
-  end
-  for i = 1, 9 do
-    table.insert(keys, {
-      "<Leader>" .. i,
-      function()
-        require("myconf.toggleterm").Toggle(i)
-      end,
-      mode = "n",
-      desc = "ToggleTerm " .. i,
-    })
+  -- Different mappings to open / switch to Terminal 1 ~ 9
+  local dirmap_defs = {
+    { mode = "t", prefix = "<M-", suffix = ">", direc = nil},
+    { mode = "n", prefix = "<Leader>", suffix = "", direc = nil},
+    { mode = "n", prefix = "<Leader>h", suffix = "", direc = "vertical"},
+  }
+  for _, def in ipairs(dirmap_defs) do
+    for i = 1, 9 do
+      table.insert(keys, {
+        def.prefix .. i .. def.suffix,
+        function()
+          require("myconf.toggleterm").Toggle(i, def.direc)
+        end,
+        mode = def.mode,
+        desc = "ToggleTerm " .. i,
+      })
+    end
   end
 
   local tr_keys = {}

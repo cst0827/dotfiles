@@ -1,7 +1,8 @@
-vim.o.showtabline = 2
+require("myconf.filetype")
 
 ---- 一般設定 ----
 vim.g.mapleader = "`"
+vim.opt.showtabline = 2
 vim.opt.termguicolors = true
 vim.opt.hidden = true
 vim.opt.mouse = ""
@@ -29,6 +30,7 @@ vim.opt.diffopt = { "internal", "filler", "closeoff", "algorithm:minimal", "vert
 vim.cmd("syntax on")
 ---- 狀態列, 標題, buffer顯示 ----
 vim.opt.laststatus = 2
+vim.opt.shortmess:append("S") -- 顯示 Search hit TOP / BOTTOM warning
 vim.opt.list = true
 vim.opt.listchars = { tab = "→ ", trail = "˙", nbsp = "·" }
 vim.opt.title = true
@@ -36,46 +38,44 @@ vim.opt.titlestring = "%t%(%m%)%((%{expand('%:p:~:h:h:t')}/%{expand('%:p:~:h:t')
 vim.opt.colorcolumn = "81," .. table.concat(vim.fn.range(121, 999), ",")
 vim.g.highlighting = 0
 
----- Some language specific settings ----
--- Abbreviations (Insert mode)
+---- Abbreviations (Insert mode)
 vim.cmd [[iabbrev phpdoc <Esc>:read $HOME/.vim/phpdoc.abbr<CR>kdd6==jA]]
 vim.cmd [[iabbrev godoc <Esc>:read $HOME/.vim/phpdoc.abbr<CR>kdd6==j<C-v>4jI<Space><Esc>A]]
 vim.cmd [[iabbrev iff <Esc>:read $HOME/.vim/phpif.abbr<CR>kdd2==4li]]
--- Enable indent based on filetype
-vim.cmd('filetype plugin indent on')
--- PHP switch statement indent
-vim.g.PHP_vintage_case_default_indent = 1
--- Use tabstop 8 for .c and .h files, treat *.h as C
-vim.g.c_syntax_for_h = 1
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'c',
-  command = 'setlocal tabstop=8 noexpandtab',
-})
--- Use tab for Golang indentation
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'go',
-  command = 'setlocal tabstop=4 noexpandtab formatoptions+=ro',
-})
--- Use 2 spaces for indentation in Lua files
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'lua',
-  command = 'setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab',
-})
--- Open help file in vertical split, left side, size 80, no foldcolumn
-vim.api.nvim_create_autocmd({'WinEnter', 'BufWinEnter'}, {
-  callback = function()
-    if vim.bo.filetype == 'help' then
-      vim.schedule(function()
-        vim.cmd('setlocal foldcolumn=0')
-        vim.cmd('wincmd L')
-        vim.cmd('vertical resize 80')
-      end)
+
+-- move to left after tab close instead of right
+vim.api.nvim_create_autocmd("TabClosed", {
+  callback = function(args)
+    local closed_tab = tonumber(args.match)  -- closed tabnr
+    local tabonleft = closed_tab - 1
+
+    if tabonleft >= 1 then
+      vim.cmd(tabonleft .. "tabnext")
     end
   end,
 })
+-- git diff in a new tab
+vim.keymap.set("n", "<Leader>gg", function()
+  vim.cmd("tabnew")
+  vim.cmd("read !git diff")
+  vim.cmd("1delete _")
+  vim.bo.filetype = "diff"
+  vim.bo.buftype = "nofile"
+  vim.cmd("file Git\\ diff")
+end, { desc = "Git diff in new tab" })
+-- git diff --cached in a new tab
+vim.keymap.set("n", "<Leader>gc", function()
+  vim.cmd("tabnew")
+  vim.cmd("read !git diff --cached")
+  vim.cmd("1delete _")
+  vim.bo.filetype = "diff"
+  vim.bo.buftype = "nofile"
+  vim.cmd("file Git\\ diff\\ cached")
+end, { desc = "Git cached diff in new tab" })
+
 
 ---- functions ----
-local funcs = require('functions')
+local funcs = require('myconf.functions')
 _G.Highlighting = funcs.Highlighting
 _G.Toggle_tabstop = funcs.Toggle_tabstop
 _G.Toggle_listchars = funcs.Toggle_listchars
