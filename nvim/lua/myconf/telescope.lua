@@ -28,7 +28,13 @@ function M.setup()
     end
   end
 
-  require("telescope").setup({
+  local telescope = require("telescope")
+  telescope.setup({
+    extensions = {
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown {},
+      },
+    },
     defaults = {
       sorting_strategy = "ascending",
       layout_config = {
@@ -52,6 +58,7 @@ function M.setup()
       },
     },
   })
+  telescope.load_extension("ui-select")
 
   -- 可選：定義常用快捷鍵
   vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })

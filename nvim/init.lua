@@ -80,6 +80,8 @@ _G.Highlighting = funcs.Highlighting
 _G.Toggle_tabstop = funcs.Toggle_tabstop
 _G.Toggle_listchars = funcs.Toggle_listchars
 _G.Insert_one_char = funcs.Insert_one_char
+_G.Compare_regs = funcs.Compare_regs
+_G.Yank_reg = funcs.Yank_reg
 ---- Key mappings ----
 local keymaps = {
   { "n", "<C-T>", ":vsp<CR><C-W>T", { noremap = true, silent = true } },
@@ -110,6 +112,10 @@ local keymaps = {
   -- copy word under cursor to clipboard
   { "n", "<C-C>", '"*yiw"+yiw', { noremap = true } },
   { "v", "<C-C>", '"+y', { noremap = true } },
+  -- compare block of text
+  { "v", "<Leader>ca", [[:lua Yank_reg("a")<CR>]], { noremap = true, silent = true} },
+  { "v", "<Leader>cz", [[:lua Yank_reg("z")<CR>]], { noremap = true, silent = true } },
+  { "n", "<Leader>cc", [[:lua Compare_regs("a","z")<CR>]], { noremap = true, silent = true }, },
 }
 for _, map in ipairs(keymaps) do
   vim.api.nvim_set_keymap(map[1], map[2], map[3], map[4])

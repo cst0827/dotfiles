@@ -1,6 +1,7 @@
 return { -- CopilotChat
   "CopilotC-Nvim/CopilotChat.nvim",
   enabled = false,
+  version = "*",
   config = function()
     require("CopilotChat").setup {
       prompts = {
@@ -23,5 +24,18 @@ return { -- CopilotChat
     }
     vim.keymap.set('n', '<Leader>co', ':CopilotChatOpen<CR>', { noremap = true, silent = true })
     vim.keymap.set('n', '<Leader>cc', ':CopilotChatClose<CR>', { noremap = true, silent = true })
+    -- Close preview window when copilot-chat window is closed
+    vim.api.nvim_create_autocmd("WinClosed", {
+      callback = function(args)
+        local win = tonumber(args.match)
+        if not win then return end
+        local ok, buf = pcall(vim.api.nvim_win_get_buf, win)
+        if not ok then return end
+        local ft = vim.bo[buf].filetype
+        if ft == "copilot-chat" or ft == "CopilotChat" then
+          vim.cmd("silent! pclose")
+        end
+      end,
+    })
   end,
 }
