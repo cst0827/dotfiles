@@ -82,4 +82,11 @@ M.Yank_reg = function(r)
   end
 end
 
+-- Copy pwd to system clipboard
+M.Copy_pwd = function()
+  local cwd = vim.fn.getcwd()
+  vim.fn.setreg('+', cwd)
+  vim.notify('Copied pwd to system clipboard: ' .. cwd)
+end
+
 return M

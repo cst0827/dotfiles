@@ -82,6 +82,7 @@ _G.Toggle_listchars = funcs.Toggle_listchars
 _G.Insert_one_char = funcs.Insert_one_char
 _G.Compare_regs = funcs.Compare_regs
 _G.Yank_reg = funcs.Yank_reg
+_G.Copy_pwd = funcs.Copy_pwd
 ---- Key mappings ----
 local keymaps = {
   { "n", "<C-T>", ":vsp<CR><C-W>T", { noremap = true, silent = true } },
@@ -120,5 +121,12 @@ local keymaps = {
 for _, map in ipairs(keymaps) do
   vim.api.nvim_set_keymap(map[1], map[2], map[3], map[4])
 end
+
+-- User command + convert :cpwd to :Cpwd
+vim.api.nvim_create_user_command("Cpwd", _G.Copy_pwd, {})
+vim.cmd([[
+  cnoreabbrev <expr> cpwd
+        \ (getcmdtype() == ':' && getcmdline() ==# 'cpwd') ? 'Cpwd' : 'cpwd'
+]])
 
 require('config.lazy')

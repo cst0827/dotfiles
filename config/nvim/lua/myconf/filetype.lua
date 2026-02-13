@@ -12,7 +12,8 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Use tab for Golang indentation
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'go',
-  command = 'setlocal tabstop=4 noexpandtab formatoptions+=ro',
+  --command = 'setlocal tabstop=4 noexpandtab formatoptions+=ro | setlocal iskeyword-=.',
+  command = 'setlocal tabstop=4 noexpandtab formatoptions+=ro iskeyword-=.',
 })
 -- Use 2 spaces for indentation in Lua files
 vim.api.nvim_create_autocmd('FileType', {
