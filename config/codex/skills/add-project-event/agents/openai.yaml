@@ -1,0 +1,7 @@
+interface:
+  display_name: "Add Project Event"
+  short_description: "Add shared and module event wiring"
+  default_prompt: "Use $add-project-event to add new event IDs, shared event messages, JSON entries, and module event hooks in this project."
+
+policy:
+  allow_implicit_invocation: true

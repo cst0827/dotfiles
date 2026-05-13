@@ -2,7 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-PATH=$PATH:/opt/node-v6.4.0-linux-x64/bin:$HOME/neovim/bin
+PATH=$HOME/.npm-global/bin:$PATH:/opt/node-v6.4.0-linux-x64/bin:$HOME/neovim/bin:$HOME/.local/bin
 
 if [ -d "/usr/local/go/bin" ] ; then
     PATH="/usr/local/go/bin:$PATH"
@@ -82,6 +82,10 @@ xterm*|rxvt*)
     ;;
 esac
 
+# report CWD to Tabby 
+#export PS1="$PS1\[\e]1337;CurrentDir="'$(pwd)\a\]'
+export PS1="$PS1\[\e]1337;CurrentDir=\$PWD\a\]"
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -108,6 +112,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export TZ="/usr/share/zoneinfo/Asia/Taipei"
 
 # Add functions for myself
 
@@ -123,6 +128,33 @@ cdup(){
     esac
 }
 
+## Reset the current git branch to the remote branch and set upstream
+gitreset() {
+    local br="${1:-}"               # Optional: target branch name; default = current branch
+    local remote="${2:-origin}"     # Optional: remote name; default = origin
+
+    # Ensure we are inside a git repository
+    git rev-parse --is-inside-work-tree &>/dev/null || { echo "Not inside a git repository."; return 1; }
+
+    # Determine current branch if not provided
+    if [[ -z "$br" ]]; then
+        br="$(git symbolic-ref --quiet --short HEAD 2>/dev/null)" || {
+            echo "Detached HEAD. Please specify a branch: gresetup <branch> [remote]"; return 1; }
+    fi
+
+    # Fetch the remote branch to make sure it's up to date
+    git fetch "$remote" "$br" || return 1
+
+    # Verify the remote branch exists
+    git show-ref --verify --quiet "refs/remotes/$remote/$br" || { echo "Remote branch '$remote/$br' not found."; return 1; }
+
+    # Destructive operation: hard reset to remote and set upstream
+    git reset --hard "$remote/$br" || return 1
+    git branch -u "$remote/$br" || return 1
+
+    echo "✓ Reset to $remote/$br and set upstream."
+}
+
 ## cd to another branch, into the same directory
 ## eg. /xxx/Firmware_001/yyy/zzz -> cdbr 002 -> /xxx/Firmware_002/yyy/zzz
 cdbr(){
@@ -130,15 +162,15 @@ cdbr(){
 }
 
 # ibus export
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
+#export GTK_IM_MODULE=ibus
+#export XMODIFIERS=@im=ibus
+#export QT_IM_MODULE=ibus
 . "$HOME/.cargo/env"
 
 # keep this section in this order and at the end of rc
 export FZF_COMPLETION_TRIGGER='~~'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-eval "$(zoxide init --cmd cd bash)"
+#eval "$(zoxide init --cmd cd bash)"
 _fzf_setup_completion dir cd
 _fzf_setup_completion path nvim
 _fzf_setup_completion path nv

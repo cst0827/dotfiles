@@ -1,0 +1,4 @@
+interface:
+  display_name: "QTestMan"
+  short_description: "QTestMan usage, QS syntax, Windows host"
+  default_prompt: "Use  to answer QTestMan usage or QS syntax questions; prefer QS/BusyBox and only use PowerShell if necessary."

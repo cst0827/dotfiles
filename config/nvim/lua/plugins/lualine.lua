@@ -1,5 +1,6 @@
 return {
   "nvim-lualine/lualine.nvim",
+  --enabled = false,
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
     local get_cwd = function()
@@ -14,6 +15,7 @@ return {
     require("lualine").setup({
       sections = {
         lualine_a = {'mode', 'searchcount'},
+        lualine_b = {'branch'},
         lualine_c = {'filename', get_cwd},
         lualine_z = {get_location},
       },

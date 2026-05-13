@@ -1,0 +1,4 @@
+--langdef=QTestMan
+--map-QTestMan=+.qs
+--kinddef-QTestMan=t,testitem,Test\ Items
+--regex-QTestMan=/^[\t ]*#+[\t ]*(\[x[0-9]+\][\t ]*)?(.*)[\t ]*$/\2/t/

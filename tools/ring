@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# ring_user.sh
+# Send message to all login ttys of current user.
+# Default message: ring!
+
+msg="${*:-ring!}"
+user="$(id -un)"
+tmp="/tmp/ring_user.$$"
+found=0
+
+who > "$tmp" || exit 1
+
+while IFS= read -r line; do
+    set -- $line
+    login_user="$1"
+    tty_name="$2"
+
+    [ "$login_user" = "$user" ] || continue
+    [ -n "$tty_name" ] || continue
+
+    tty_path="/dev/$tty_name"
+    [ -w "$tty_path" ] || continue
+
+    found=1
+    printf '\n[%s] %s\n' "$user" "$msg" > "$tty_path"
+done < "$tmp"
+
+rm -f "$tmp"
+
+if [ "$found" -eq 0 ]; then
+    echo "No writable tty found for user: $user" >&2
+    exit 1
+fi

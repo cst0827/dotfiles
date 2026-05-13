@@ -9,8 +9,15 @@ alias la='ls -al'
 alias :q='exit'
 alias v='vim -p'
 alias nv='nvim -p'
-alias grepp="grep -Irnw --exclude-dir='.svn' --exclude='tags' --exclude='*.cmd'"
-alias grepx="grep -Irn --exclude-dir='.svn' --exclude='tags' --exclude='*.cmd'"
+if command -v rg > /dev/null; then
+  alias grepp="rg -n -w --no-heading --glob '!tags' --glob '!*.cmd' --glob '!.svn/*'"
+  alias grepx="rg -n --no-heading --glob '!tags' --glob '!*.cmd' --glob '!.svn/*'"
+  alias rgp="rg -n -w --heading --glob '!tags' --glob '!*.cmd' --glob '!.svn/*'"
+  alias rgx="rg -n --heading --glob '!tags' --glob '!*.cmd' --glob '!.svn/*'"
+else
+  alias grepp="grep -Irnw --exclude-dir='.svn' --exclude='tags' --exclude='*.cmd'"
+  alias grepx="grep -Irn --exclude-dir='.svn' --exclude='tags' --exclude='*.cmd'"
+fi
 alias svnstp='svn st | grep "^[^\\?]"'
 alias svnstpall="for d in ./*/ ; do (cd \"\$d\" && echo -e \"\\033[1;34m\$d\\033[0m\"&& svnstp); done"
 alias svnupall="svn up; for d in ./*/ ; do (cd \"\$d\" && echo -e \"\\033[1;34m\$d\\033[0m\"&& svn up); done"
@@ -28,4 +35,8 @@ alias ..4='cdup 4'
 alias gitstp="git status -uno"
 alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) - %C(dim white)%an%C(reset) - %C(white)%s%C(reset)%C(auto)%d%C(reset)'"
 alias gitflog="git log --oneline --decorate --all --graph"
+alias gitreset="gitreset"
 alias cppwd="pwd | tr -d '\n' | xclip -selection clipboard"
+alias t="tmux -2"
+alias ta="tmux -2 attach"
+alias tl="tmux list-sessions"
