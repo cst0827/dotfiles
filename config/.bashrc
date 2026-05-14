@@ -2,7 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-PATH=$HOME/.npm-global/bin:$PATH:/opt/node-v6.4.0-linux-x64/bin:$HOME/neovim/bin:$HOME/.local/bin
+PATH=$HOME/.npm-global/bin:/opt/node-v6.4.0-linux-x64/bin:$HOME/opt/neovim/bin:$HOME/.local/bin:$HOME/opt/tmux-3.6a/bin:$PATH
 
 if [ -d "/usr/local/go/bin" ] ; then
     PATH="/usr/local/go/bin:$PATH"
