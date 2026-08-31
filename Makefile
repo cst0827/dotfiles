@@ -49,6 +49,8 @@ NEOVIM_PREFIX := $(OPT)/neovim
 
 RESTORE_PATH := $(NPM_PREFIX)/bin:$(NODE_BIN):$(NEOVIM_PREFIX)/bin:$(LOCAL_BIN):$(TMUX_PREFIX)/bin:$(PATH)
 
+.SILENT:
+
 .PHONY: help restore dirs sysdeps configs user-tools cmake libevent tmux neovim codex codex-extra check clean-build
 
 help:

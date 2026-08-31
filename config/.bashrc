@@ -4,8 +4,10 @@
 
 PATH=$HOME/.npm-global/bin:/opt/node-v6.4.0-linux-x64/bin:$HOME/opt/neovim/bin:$HOME/.local/bin:$HOME/opt/tmux-3.6a/bin:$PATH
 
-if [ -d "/usr/local/go/bin" ] ; then
-    PATH="/usr/local/go/bin:$PATH"
+if [ -d "$HOME/opt/go/bin" ] ; then
+    PATH="$HOME/opt/go/bin:$PATH"
+elif [ -d "$HOME/go/bin" ] ; then
+    PATH="$HOME/go/bin:$PATH"
 fi
 
 # If not running interactively, don't do anything
@@ -118,12 +120,44 @@ export TZ="/usr/share/zoneinfo/Asia/Taipei"
 
 ## cd up n levels, or to a dir name given
 cdup(){
-    case $1 in
+    local selector="${1:-1}"
+    local path="${PWD%/}"
+    local component
+
+    [ -n "$path" ] || path=/
+
+    case $selector in
         *[!0-9]*)
-            cd $( pwd | sed -r "s|(.*$1[^/]*/).*|\1|" )
+            # Search the saved logical path instead of walking from cwd.  The
+            # latter may refer to an unlinked directory after a rebuild.
+            if [ "$path" != / ]; then
+                path=${path%/*}
+                [ -n "$path" ] || path=/
+            fi
+
+            while :; do
+                component=${path##*/}
+                if [[ "$component" == *"$selector"* ]]; then
+                    builtin cd -- "$path"
+                    return
+                fi
+
+                [ "$path" = / ] && break
+                path=${path%/*}
+                [ -n "$path" ] || path=/
+            done
+
+            printf 'cdup: no parent directory matches %s\n' "$selector" >&2
+            return 1
             ;;
         *)
-            cd $(printf "%0.0s../" $(seq 1 $1));
+            while [ "$selector" -gt 0 ] && [ "$path" != / ]; do
+                path=${path%/*}
+                [ -n "$path" ] || path=/
+                selector=$((selector - 1))
+            done
+
+            builtin cd -- "$path"
             ;;
     esac
 }
